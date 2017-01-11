@@ -14,7 +14,10 @@ router.post('/Customers', customerController.postCustomer);
 router.delete('/customers/:CustomerId', customerController.deleteCustomer);
 router.put('/customers/:CustomerId', customerController.putCustomer);
 // =======================
-// routes for Orders ================
+// routes for inventories ================
 // =======================
-router.get('/Inventory', inventoryController.getInventory);
+router.get('/Inventories', inventoryController.getInventory);
+router.post('/Inventories', inventoryController.postInventory);
+router.delete('/Inventories/:InventoryId', inventoryController.deleteInventory);
+
 module.exports = router;
