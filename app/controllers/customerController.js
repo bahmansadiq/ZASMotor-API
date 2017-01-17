@@ -5,7 +5,7 @@ var Customer=mongoose.model("Customer");
 /////////************************///////////////
 /////// get all the customer 
 /////////************************///////////////
-module.exports.getAllCustomers=function(req, res){
+module.exports.getCustomer=function(req, res){
 	Customer.find(function(err, customer){
 		if(err)
 			res.send(err);
@@ -20,12 +20,7 @@ module.exports.postCustomer=function(req, res){
   var customerData = new Customer({
 		FirstName: req.body.FirstName,
 		LastName: req.body.LastName,
-		Organization: req.body.Organization,
-		WebSite: req.body.WebSite,
-		Role: req.body.Role,
-		BusinessPhone: req.body.BusinessPhone,
 		MobilePhone: req.body.MobilePhone,
-		Fax: req.body.Fax,
 		Email: req.body.Email,
 		StreetAddress: req.body.StreetAddress,
 		City: req.body.City,
@@ -71,12 +66,7 @@ module.exports.putCustomer=function(req, res) {
 console.log(req);
 		customer.FirstName=req.body.FirstName;
 		customer.LastName=req.body.LastName;
-		customer.Organization=req.body.Organization;
-		customer.WebSite=req.body.WebSite;
-		customer.Role=req.body.Role;
-		customer.BusinessPhone=req.body.BusinessPhone;
 		customer.MobilePhone=req.body.MobilePhone;
-		customer.Fax=req.body.Fax;
 		customer.Email=req.body.Email;
 		customer.StreetAddress=req.body.StreetAddress;
 		customer.City=req.body.City;
@@ -84,7 +74,6 @@ console.log(req);
 		customer.ZipCode=req.body.ZipCode;
 		customer.Country=req.body.Country;
 		customer.Note=req.body.Note;
-		customer.updatedAt= new Date().toISOString();
 		customer.createdAt=req.body.createdAt;
 
         customer.save(function(err) {
