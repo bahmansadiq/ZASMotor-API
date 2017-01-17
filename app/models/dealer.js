@@ -10,7 +10,6 @@ var dealerSchema   = new  mongoose.Schema({
 	youtubeAddress : String,
 	streetAddress  : String,
 	city		   : String,
-	streetAddress  : String,
 	country		   : String,
 	lat			   : String,
 	long		   : String,

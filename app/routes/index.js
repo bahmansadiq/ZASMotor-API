@@ -27,4 +27,5 @@ router.delete('/Inventories/:InventoryId', inventoryController.deleteInventory);
 // =======================
 router.get('/Dealers', dealerController.getDealer);
 router.post('/Dealers', dealerController.postDealer);
+router.delete('/Dealers/:DealerId', dealerController.deleteDealer);
 module.exports = router;
