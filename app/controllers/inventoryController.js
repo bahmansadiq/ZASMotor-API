@@ -18,7 +18,6 @@ module.exports.getInventory=function(req, res){
 /////////************************///////////////
 
 module.exports.postInventory=function(req, res){
-  var imgPath =  fs.readFileSync(res.body.images);
   var inventoryData = new Inventory({
 	make: req.body.make,
 	model: req.body.model,
@@ -34,8 +33,7 @@ module.exports.postInventory=function(req, res){
 	fuelType: req.body.fuelType,
 	mpg: req.body.mpg,
 	vehicleOptions: req.body.vehicleOptions,
-	vehicleNotes: req.body.vehicleNotes,
-	images : imgPath
+	vehicleNotes: req.body.vehicleNotes
 
 });
   // save the sample inventory
