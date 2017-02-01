@@ -3,6 +3,7 @@ var router 		= express.Router();
 var customerController=require("../controllers/customerController");
 var inventoryController=require("../controllers/inventoryController");
 var dealerController=require("../controllers/dealerController");
+var gridfsController= require("../controllers/gridfsController");
 router.get('/', function(req, res) {
     res.send('Hello! The API is at http://localhost:' + port + '/api');
 });
@@ -28,4 +29,11 @@ router.delete('/Inventories/:InventoryId', inventoryController.deleteInventory);
 router.get('/Dealers', dealerController.getDealer);
 router.post('/Dealers', dealerController.postDealer);
 router.delete('/Dealers/:DealerId', dealerController.deleteDealer);
+// =======================
+// routes for images================
+// =======================
+router.get('/Images', gridfsController.getImage);
+router.post('/Images', gridfsController.postImage);
+
+
 module.exports = router;

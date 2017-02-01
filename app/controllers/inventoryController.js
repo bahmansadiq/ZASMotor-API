@@ -63,3 +63,4 @@ module.exports.deleteInventory=function(req, res){
 
     });
 }
+
