@@ -1,9 +1,10 @@
 var express     = require('express');
 var router 		= express.Router();
-var customerController=require("../controllers/customerController");
-var inventoryController=require("../controllers/inventoryController");
-var dealerController=require("../controllers/dealerController");
-var gridfsController= require("../controllers/gridfsController");
+var userController		= require("../controllers/userController");
+var customerController  =require("../controllers/customerController");
+var inventoryController =require("../controllers/inventoryController");
+var dealerController    =require("../controllers/dealerController");
+var gridfsController    =require("../controllers/gridfsController");
 router.get('/', function(req, res) {
     res.send('Hello! The API is at http://localhost:' + port + '/api');
 });
@@ -35,5 +36,9 @@ router.delete('/Dealers/:DealerId', dealerController.deleteDealer);
 router.get('/Images', gridfsController.getImage);
 router.post('/Images', gridfsController.postImage);
 
-
+// =======================
+// routes for user authentication================
+// =======================
+router.get('/Auth', userController.getUser);
+router.post('/Auth', userController.postUser);
 module.exports = router;

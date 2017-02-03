@@ -11,7 +11,10 @@ var Customer    = require('./app/models/customer.js'); // get our mongoose model
 var Inventory   = require('./app/models/inventory.js'); // get our mongoose model
 var Dealer      = require('./app/models/dealer.js');
 var Image		= require('./app/models/image.js');
+var Users		= require('./app/models/user.js');
 var routerApi   = require("./app/routes/index"); 
+var auth 		= require('./app/controllers/auth.js');
+
 //var busboyBodyParser = require('busboy-body-parser');
 var app         = express();
 var jwt         = require('jsonwebtoken'); // used to create, sign, and verify tokens
@@ -34,10 +37,11 @@ app.set('superSecret', config.secret); // secret variable
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+//app.use(auth.initialize());
 // use morgan to log requests to the console
 app.use(morgan('dev'));
-app.use("/api", routerApi);
+app.use("/api", routerApi);  
+
 
 module.exports=app;
 // =======================

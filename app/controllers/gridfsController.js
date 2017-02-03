@@ -3,14 +3,14 @@ var Image=mongoose.model("Image");
 // call the packages
 // bodyparser handling file uploads
 
-var app         = express();
+/*var app         = express();
 
 
 
 // configure app
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(busboyBodyParser({ limit: '200mb' }));
+app.use(busboyBodyParser({ limit: '200mb' }));*/
 
 /////////************************///////////////
 /////// post a new image
@@ -35,7 +35,7 @@ module.exports.postImage=function(req, res) {
         // chatid: req.body.chatid
     };
 
-    var gfs = Grid( mongoose.connection.db, mongoose.mongo);
+    var gfs = Grid( mongoose.connection.db);
 
 
     // writes the file provided to the GridFS collections with the name the user assigned, May have to look for
