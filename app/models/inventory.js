@@ -16,8 +16,6 @@ var inventorySchema   = new  mongoose.Schema({
 	mpg: String,
 	vehicleOptions: String,
 	vehicleNotes: String
-	//,images: { data: Buffer, contentType: String }
-	//db.dealers.findOne({_id : ObjectId("587dd0b5080d8f11b0bc623f")};
 
 },
 		{ versionKey: false ,

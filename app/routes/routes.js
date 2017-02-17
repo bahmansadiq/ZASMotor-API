@@ -1,14 +1,25 @@
 var express     = require('express');
 var router 		= express.Router();
-var userController		= require("../controllers/userController");
+var  app = express();
+var apiRoutes = express.Router(); 
+var userController		=require("../controllers/userController");
 var customerController  =require("../controllers/customerController");
 var inventoryController =require("../controllers/inventoryController");
 var dealerController    =require("../controllers/dealerController");
-var gridfsController    =require("../controllers/gridfsController");
-router.get('/', function(req, res) {
-    res.send('Hello! The API is at http://localhost:' + port + '/api');
+
+// Home route. We'll end up changing this to our main front end index later.
+app.get('/', function(req, res) {  
+  res.send('Relax.... We will put the home page here later.');
 });
 //get post delete and get goes here for all the path controllers
+
+// =======================
+// routes for user login ================
+// =======================
+apiRoutes.post('/register',userController.register);
+apiRoutes.post('/authenticate', userController.authenticate);
+apiRoutes.get('/dashboard', userController.dashboard);
+
 // =======================
 // routes for Customers ================
 // =======================
@@ -30,15 +41,7 @@ router.delete('/Inventories/:InventoryId', inventoryController.deleteInventory);
 router.get('/Dealers', dealerController.getDealer);
 router.post('/Dealers', dealerController.postDealer);
 router.delete('/Dealers/:DealerId', dealerController.deleteDealer);
-// =======================
-// routes for images================
-// =======================
-router.get('/Images', gridfsController.getImage);
-router.post('/Images', gridfsController.postImage);
 
-// =======================
-// routes for user authentication================
-// =======================
-router.get('/Auth', userController.getUser);
-router.post('/Auth', userController.postUser);
 module.exports = router;
+module.exports = apiRoutes;
+

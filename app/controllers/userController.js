@@ -1,42 +1,77 @@
-// index.js
+// auth.js
+var express = require('express');
+var app=express();
 var mongoose=require("mongoose");
-var express = require("express");  
-var bodyParser = require("body-parser");  
-var jwt = require("jwt-simple");  
-var auth = require("./auth.js")();  
-var users=mongoose.model("Users");  
-var cfg = require("../../config.js");  
-var app = express();
+var passport = require('passport'); 
+var config = require('../config/main');  
+//var User = require('../models/user'); 
+var User=mongoose.model("User");
+var jwt = require('jsonwebtoken');
 
-app.use(bodyParser.json());  
-app.use(auth.initialize());
-
-
-module.exports.getUser=(auth.authenticate(),
-    function(req, res) {  
-    res.json(users[req.user.id]);
-});
+// have to mension CRUD methods 
+/////////************************///////////////
+/////// get all the user registeration authentication
+/////////************************///////////////
 
 
-module.exports.postUser= function(req, res) {  
-    if (req.body.email && req.body.password) {
-        var email = req.body.email;
-        var password = req.body.password;
-        var user = users.find(function(u) {
-            return u.email === email && u.password === password;
-        });
-        if (user) {
-            var payload = {
-                id: user.id
-            };
-            var token = jwt.encode(payload, cfg.jwtSecret);
-            res.json({
-                token: token
-            });
-        } else {
-            res.sendStatus(401);
-        }
-    } else {
-        res.sendStatus(401);
-    }
+// Bring in defined Passport Strategy
+require('../config/passport')(passport);  
+//Now we can start on our routes. We will start by creating the route group called apiRoutes. We will now be working down without jumping all over the place in the code. That said, this goes beneath the passport strategy import we just did:
+
+// Create API group routes
+var apiRoutes = express.Router();  
+//Next, we can create our registration route:
+
+
+
+
+// Register new users
+module.exports.register= function(req, res) {  
+  if(!req.body.email || !req.body.password) {
+    res.json({ success: false, message: 'Please enter email and password.' });
+  } else {
+    var newUser = new User({
+      email: req.body.email,
+      password: req.body.password
+    });
+
+    // Attempt to save the user
+    newUser.save(function(err) {
+      if (err) {
+        return res.json({ success: false, message: 'That email address already exists.'});
+      }
+      res.json({ success: true, message: 'Successfully created new user.' });
+    });
+  }
 };
+
+// Authenticate the user and get a JSON Web Token to include in the header of future requests.
+module.exports.authenticate=function(req, res) {  
+  User.findOne({
+    email: req.body.email
+  }, function(err, user) {
+    if (err) throw err;
+
+    if (!user) {
+      res.send({ success: false, message: 'Authentication failed. User not found.' });
+    } else {
+      // Check if password matches
+      user.comparePassword(req.body.password, function(err, isMatch) {
+        if (isMatch && !err) {
+          // Create token if the password matched and no error was thrown
+          var token = jwt.sign(user, config.secret, {
+            expiresIn: 10080 // in seconds
+          });
+          res.json({ success: true, token: 'JWT ' + token });
+        } else {
+          res.send({ success: false, message: 'Authentication failed. Passwords did not match.' });
+        }
+      });
+    }
+  });
+};
+
+// Protect dashboard route with JWT
+module.exports.dashboard=(passport.authenticate('jwt', { session: false }), function(req, res) {  
+  res.send('It worked! User id is: ' + req.user._id + '.');
+});
