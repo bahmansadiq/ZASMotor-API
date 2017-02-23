@@ -7,7 +7,7 @@ var config = require('../config/main');
 //var User = require('../models/user'); 
 var User=mongoose.model("User");
 var jwt = require('jsonwebtoken');
-
+dashboardUser=[];
 // have to mension CRUD methods 
 /////////************************///////////////
 /////// get all the user registeration authentication
@@ -58,11 +58,13 @@ module.exports.authenticate=function(req, res) {
       // Check if password matches
       user.comparePassword(req.body.password, function(err, isMatch) {
         if (isMatch && !err) {
+           dashboardUser.push(user);
           // Create token if the password matched and no error was thrown
           var token = jwt.sign(user, config.secret, {
             expiresIn: 10080 // in seconds
           });
-          res.json({ success: true, token: 'JWT ' + token });
+        
+          res.json({ success: true, token: 'JWT ' + token});
         } else {
           res.send({ success: false, message: 'Authentication failed. Passwords did not match.' });
         }
@@ -72,6 +74,12 @@ module.exports.authenticate=function(req, res) {
 };
 
 // Protect dashboard route with JWT
+// module.exports.dashboard=(passport.authenticate('jwt', { session: false }), function(req, res) {  
+//   console.log("this is response log"+res);
+//   res.send('It worked! User id is: ' + res.user._id + '.');
+// });
+
 module.exports.dashboard=(passport.authenticate('jwt', { session: false }), function(req, res) {  
-  res.send('It worked! User id is: ' + req.user._id + '.');
+  console.log("this is response log");
+  res.send('It worked! User id is: '  +dashboardUser[0]._id+ '.');
 });
