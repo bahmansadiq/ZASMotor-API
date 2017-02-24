@@ -43,5 +43,5 @@ router.post('/Dealers', dealerController.postDealer);
 router.delete('/Dealers/:DealerId', dealerController.deleteDealer);
 
 module.exports = router;
-module.exports = apiRoutes;
+//module.exports = apiRoutes;
 

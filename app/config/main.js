@@ -4,7 +4,7 @@ module.exports = {
     'database' : 'mongodb://zas:password@ds157078.mlab.com:57078/zasmotors',
 
   // Setting port for server
-  'port': process.env.PORT || 3000
+  'port': process.env.PORT || 57450
 }
 
 
