@@ -21,6 +21,9 @@
     "passport-google": "^0.3.0",
     "passport-google-oauth": "^1.0.0",
     "passport-jwt": "^2.2.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "s3": "^4.4.0",
+    "s3fs": "^2.5.0",
+    "uuid": "^3.0.1"
   }
 }

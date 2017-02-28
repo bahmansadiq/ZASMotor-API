@@ -15,7 +15,8 @@ var inventorySchema   = new  mongoose.Schema({
 	fuelType: String,
 	mpg: String,
 	vehicleOptions: String,
-	vehicleNotes: String
+	vehicleNotes: String,
+	imageUrl: String
 
 },
 		{ versionKey: false ,
