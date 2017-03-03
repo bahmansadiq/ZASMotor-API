@@ -6,8 +6,6 @@ var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
 var mongoose    = require('mongoose');
 var passport    = require('passport'); 
-var multiparty = require('connect-multiparty');
-var multipartyMiddleware = multiparty();
 var Customer    = require('./app/models/customer.js'); // get our mongoose model
 var Inventory   = require('./app/models/inventory.js'); // get our mongoose model
 var Dealer      = require('./app/models/dealer.js');
@@ -29,7 +27,6 @@ app.use(function(req, res, next) {
 // =======================
 // use morgan to log requests to the console
 app.use(morgan('dev'));
-app.use(multipartyMiddleware);
 mongoose.connect(config.database); // connect to database
 app.set('superSecret', config.secret); // secret variable
 

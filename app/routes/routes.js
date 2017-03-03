@@ -6,7 +6,7 @@ var userController		=require("../controllers/userController");
 var customerController  =require("../controllers/customerController");
 var inventoryController =require("../controllers/inventoryController");
 var dealerController    =require("../controllers/dealerController");
-var imageController=	require('../controllers/image.js');
+
 
 // Home route. We'll end up changing this to our main front end index later.
 app.get('/', function(req, res) {  
@@ -44,7 +44,6 @@ router.post('/Dealers', dealerController.postDealer);
 router.delete('/Dealers/:DealerId', dealerController.deleteDealer);
 
 
-router.post('/image', imageController.image);
 
 module.exports = router;
 //module.exports = apiRoutes;

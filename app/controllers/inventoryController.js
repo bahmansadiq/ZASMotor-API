@@ -34,8 +34,9 @@ module.exports.postInventory=function(req, res){
 	mpg: req.body.mpg,
 	vehicleOptions: req.body.vehicleOptions,
 	vehicleNotes: req.body.vehicleNotes
-
 });
+
+
   // save the sample inventory
 	inventoryData.save(function(err) {
     if (err)
