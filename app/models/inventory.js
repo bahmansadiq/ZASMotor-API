@@ -15,12 +15,20 @@ var inventorySchema   = new  mongoose.Schema({
 	fuelType: String,
 	mpg: String,
 	vehicleOptions: String,
-	vehicleNotes: String
-
-},
-		{ versionKey: false ,
-	 	  timestamps: true 
-	 	}
+	 vehicleNotes: String//,
+	// path: {
+	// 		 type: String,
+	// 		 required: true,
+	// 		 trim: true
+	// 	  },
+ //    originalname: {
+	// 		 type: String,
+	// 		 required: true
+	// 	  }
+    },
+	{ versionKey: false ,
+	  timestamps: true 
+	}
 );
 //how to store images in url locall, but you can change it to url remotely
 //https://www.youtube.com/watch?v=wdl59LAe4M8

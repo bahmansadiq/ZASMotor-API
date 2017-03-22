@@ -1,11 +1,12 @@
 var express     = require('express');
 var router 		= express.Router();
 var  app = express();
-var apiRoutes = express.Router(); 
+//var routerApi = express.Router(); 
 var userController		=require("../controllers/userController");
 var customerController  =require("../controllers/customerController");
 var inventoryController =require("../controllers/inventoryController");
 var dealerController    =require("../controllers/dealerController");
+var imageController     =require("../controllers/imageController");
 
 
 // Home route. We'll end up changing this to our main front end index later.
@@ -17,9 +18,9 @@ app.get('/', function(req, res) {
 // =======================
 // routes for user login ================
 // =======================
-apiRoutes.post('/register',userController.register);
-apiRoutes.post('/authenticate', userController.authenticate);
-apiRoutes.get('/dashboard', userController.dashboard);
+router.post('/register',userController.register);
+router.post('/authenticate', userController.authenticate);
+router.get('/dashboard', userController.dashboard);
 
 // =======================
 // routes for Customers ================
@@ -34,6 +35,12 @@ router.put('/customers/:CustomerId', customerController.putCustomer);
 router.get('/Inventories', inventoryController.getInventory);
 router.post('/Inventories', inventoryController.postInventory);
 router.delete('/Inventories/:InventoryId', inventoryController.deleteInventory);
+
+// =======================
+// routes for images================
+// =======================
+//router.get('/images', imageController.images);
+//router.get('/images/:id',imageController.images);
 
 
 // =======================

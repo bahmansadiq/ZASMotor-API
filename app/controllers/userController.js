@@ -22,9 +22,6 @@ require('../config/passport')(passport);
 var apiRoutes = express.Router();  
 //Next, we can create our registration route:
 
-
-
-
 // Register new users
 module.exports.register= function(req, res) {  
   if(!req.body.email || !req.body.password) {

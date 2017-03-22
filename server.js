@@ -10,7 +10,7 @@ var Customer    = require('./app/models/customer.js'); // get our mongoose model
 var Inventory   = require('./app/models/inventory.js'); // get our mongoose model
 var Dealer      = require('./app/models/dealer.js');
 var Users		= require('./app/models/user.js');
-var routerApi   = require("./app/routes/routes"); 
+var router   = require("./app/routes/routes"); 
 var app         = express();
 var jwt         = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config      = require('./app/config/main'); // get our config file
@@ -37,7 +37,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());  
 
 
-app.use("/api", routerApi);  
+app.use("/api", router);  
 
 
 module.exports=app;
