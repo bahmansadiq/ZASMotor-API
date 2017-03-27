@@ -9,6 +9,7 @@ var dealerController    =require("../controllers/dealerController");
 var imageController     =require("../controllers/imageController");
 
 
+
 // Home route. We'll end up changing this to our main front end index later.
 app.get('/', function(req, res) {  
   res.send('Relax.... We will put the home page here later.');
@@ -39,9 +40,9 @@ router.delete('/Inventories/:InventoryId', inventoryController.deleteInventory);
 // =======================
 // routes for images================
 // =======================
-//router.get('/images', imageController.images);
-//router.get('/images/:id',imageController.images);
-
+router.get('/getImages', imageController.getImages);
+router.get('/getImageById/:id',imageController.getImageById);
+router.post('/postImage', imageController.postImage);
 
 // =======================
 // routes for dealers================

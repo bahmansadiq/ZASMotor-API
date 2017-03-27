@@ -60,8 +60,9 @@ module.exports.authenticate=function(req, res) {
           var token = jwt.sign(user, config.secret, {
             expiresIn: 10080 // in seconds
           });
-        
           res.json({ success: true, token: 'JWT ' + token});
+      // res.send(token);
+
         } else {
           res.send({ success: false, message: 'Authentication failed. Passwords did not match.' });
         }
