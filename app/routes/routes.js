@@ -1,6 +1,10 @@
 var express     = require('express');
 var router 		= express.Router();
 var  app = express();
+var multer = require('multer');
+var storage = multer.memoryStorage();
+var upload = multer({storage: storage});
+var path = require('path');
 //var routerApi = express.Router(); 
 var userController		=require("../controllers/userController");
 var customerController  =require("../controllers/customerController");
@@ -42,7 +46,7 @@ router.delete('/Inventories/:InventoryId', inventoryController.deleteInventory);
 // =======================
 router.get('/getImages', imageController.getImages);
 router.get('/getImageById/:id',imageController.getImageById);
-router.post('/postImage', imageController.postImage);
+router.post('/postImage',upload.any(),imageController.postImage);
 
 // =======================
 // routes for dealers================

@@ -2,6 +2,7 @@ var express = require('express');
 var router   = require('../routes/routes'); 
 var multer = require('multer');
 var mongoose = require('mongoose');
+var storage = multer.memoryStorage();
 var upload = multer({storage: storage});
 //var Image= mongoose.model('Image');
 var path = require('path');
@@ -81,17 +82,18 @@ var storage = multer.diskStorage({
 // router.get('/postImage', function(req, res, next) {
 //  res.render('index.ejs');
 // });
-module.exports.postImage=function(req, res) {
-  console.log("i am here");
- console.log(req.body);
- res.send(req.files);
+
+
+module.exports.postImage=postImage= function(req, res, next) {
+ console.log(req.files);
+ //res.send(req.files);
  
 /*req.files has the information regarding the file you are uploading...
 from the total information, i am just using the path and the imageName to store in the mongo collection(table)
 */
  var path = req.files[0].path;
  var imageName = req.files[0].originalname;
- 
+  res.send(req.files[0]);
  var imagepath = {};
  imagepath['path'] = path;
  imagepath['originalname'] = imageName;
@@ -99,8 +101,10 @@ from the total information, i am just using the path and the imageName to store 
  //imagepath contains two objects, path and the imageName
  
  //we are passing two objects in the addImage method.. which is defined above..
- // router.postImage(imagepath, function(err) {
+
+ postImage(imagepath, function(err) {
  
- // });
+ });
  
 };
+ 
