@@ -84,15 +84,17 @@ var storage = multer.diskStorage({
 // });
 
 
-module.exports.postImage=postImage= function(req, res, next) {
+module.exports.postImage=postImage=(upload.array('photos', 2), function(req, res, next) {
  console.log(req.files);
- //res.send(req.files);
- 
+ //res.send(req.files[0].path);
+ res.send("something");
+
 /*req.files has the information regarding the file you are uploading...
 from the total information, i am just using the path and the imageName to store in the mongo collection(table)
 */
- var path = req.files[0].path;
+
  var imageName = req.files[0].originalname;
+  var path = req.files[0].path;
   res.send(req.files[0]);
  var imagepath = {};
  imagepath['path'] = path;
@@ -106,5 +108,5 @@ from the total information, i am just using the path and the imageName to store 
  
  });
  
-};
+});
  

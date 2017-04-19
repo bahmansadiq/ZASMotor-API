@@ -1,10 +1,7 @@
 var express     = require('express');
 var router 		= express.Router();
 var  app = express();
-var multer = require('multer');
-var storage = multer.memoryStorage();
-var upload = multer({storage: storage});
-var path = require('path');
+
 //var routerApi = express.Router(); 
 var userController		=require("../controllers/userController");
 var customerController  =require("../controllers/customerController");
@@ -12,6 +9,13 @@ var inventoryController =require("../controllers/inventoryController");
 var dealerController    =require("../controllers/dealerController");
 var imageController     =require("../controllers/imageController");
 
+//temporary files start///
+
+var multer = require('multer');
+var storage = multer.memoryStorage();
+var upload = multer({storage: storage});
+var path = require('path');
+//temporary files end///
 
 
 // Home route. We'll end up changing this to our main front end index later.
@@ -46,7 +50,7 @@ router.delete('/Inventories/:InventoryId', inventoryController.deleteInventory);
 // =======================
 router.get('/getImages', imageController.getImages);
 router.get('/getImageById/:id',imageController.getImageById);
-router.post('/postImage',upload.any(),imageController.postImage);
+router.post('/postImage', upload.array('photos', 2), imageController.postImage);
 
 // =======================
 // routes for dealers================
