@@ -1,6 +1,7 @@
 // get an instance of mongoose and mongoose.Schema
 var mongoose     = require('mongoose');
 var inventorySchema   = new  mongoose.Schema({
+	image: [Image],
 	make: String,
 	model: String,
 	year: String,
@@ -15,16 +16,7 @@ var inventorySchema   = new  mongoose.Schema({
 	fuelType: String,
 	mpg: String,
 	vehicleOptions: String,
-	 vehicleNotes: String//,
-	// path: {
-	// 		 type: String,
-	// 		 required: true,
-	// 		 trim: true
-	// 	  },
- //    originalname: {
-	// 		 type: String,
-	// 		 required: true
-	// 	  }
+	 vehicleNotes: String
     },
 	{ versionKey: false ,
 	  timestamps: true 

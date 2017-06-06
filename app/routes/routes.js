@@ -7,7 +7,8 @@ var userController		=require("../controllers/userController");
 var customerController  =require("../controllers/customerController");
 var inventoryController =require("../controllers/inventoryController");
 var dealerController    =require("../controllers/dealerController");
-var imageController     =require("../controllers/imageController");
+//var imageController     =require("../controllers/imageController");
+var gridFSController     =require("../controllers/gridFSController");
 
 //temporary files start///
 
@@ -48,10 +49,14 @@ router.delete('/Inventories/:InventoryId', inventoryController.deleteInventory);
 // =======================
 // routes for images================
 // =======================
-router.get('/getImages', imageController.getImages);
-router.get('/getImageById/:id',imageController.getImageById);
-router.post('/postImage', upload.array('photos', 2), imageController.postImage);
+// router.get('/getImages', imageController.getImages);
+// router.get('/getImageById/:id',imageController.getImageById);
+// router.post('/postImage', upload.any(), imageController.postImage);
 
+// GridFS routes
+router.get('/files/:file_id', gridFSController.getSpecificFile);
+router.get('/files/file/:chat_id', gridFSController.getFilesInAChat);
+router.post('/files', gridFSController.postAFile);
 // =======================
 // routes for dealers================
 // =======================
