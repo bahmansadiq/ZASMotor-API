@@ -1,7 +1,6 @@
 // get an instance of mongoose and mongoose.Schema
-var mongoose     = require('mongoose');
+var mongoose = require('mongoose');
 var inventorySchema   = new  mongoose.Schema({
-	image: [Image],
 	make: String,
 	model: String,
 	year: String,

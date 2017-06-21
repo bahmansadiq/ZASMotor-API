@@ -3,7 +3,6 @@ var mongoose = require('mongoose');
 var conn = mongoose.connection;
 
 Grid.mongo = mongoose.mongo;
- module.exports.Image = Grid(conn.db);
 // get a specific file (accessed at GET http://localhost:3000/api/files/{file_id})
 module.exports.getSpecificFile = function (req, res){
 
