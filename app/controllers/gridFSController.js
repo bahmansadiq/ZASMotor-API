@@ -3,7 +3,25 @@ var mongoose = require('mongoose');
 var conn = mongoose.connection;
 
 Grid.mongo = mongoose.mongo;
-// get a specific file (accessed at GET http://localhost:3000/api/files/{file_id})
+
+//get a specific file by vin (accessed at GET http://localhost:3000/api/files/{vin})
+//i used filename=vin number of the car, so i can bring all the images for a specific vin number 
+///////////////start////////////
+module.exports.getFileByVin = function (req, res){
+ var gfs = Grid(conn.db);
+  gfs.files.find({ filename: req.params.vin}).toArray(function (err, files) {
+//console.log("getting by vin"+req.params.vin);
+    if (err) 
+        res.send(err)
+ //   console.log(files);
+    res.send(files);
+  })
+}
+
+////////////////end//////////////
+
+
+//get a specific file (accessed at GET http://localhost:3000/api/files/{file_id})
 module.exports.getSpecificFile = function (req, res){
 
     console.log("hit the /files get route");
@@ -72,6 +90,7 @@ module.exports.postAFile = function(req, res){
     console.log(req.files.files.name);
    //   var part = req.files.file;
     var part = req.files.files;
+  //  var vin =req.body.vin;
 
     // add the user who uploaded the file to the metadata field of the GridFS file document
     var metadata = {
@@ -100,8 +119,9 @@ module.exports.postAFile = function(req, res){
     
     // opens a write stream with the follow parameters
     var writeStream = gfs.createWriteStream({
-        id: req.body.vin,
-        filename: part.name,
+        id: req.body._id,
+       // filename: part.name,
+        filename: req.body.vin,
         mode: 'w',
         content_type: part.mimetype,
         metadata: metadata

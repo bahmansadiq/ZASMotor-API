@@ -54,7 +54,8 @@ router.delete('/Inventories/:InventoryId', inventoryController.deleteInventory);
 // router.post('/postImage', upload.any(), imageController.postImage);
 
 // GridFS routes
-router.get('/files/:file_id', gridFSController.getSpecificFile);
+//router.get('/files/:file_id', gridFSController.getSpecificFile);
+router.get('/files/:vin', gridFSController.getFileByVin);
 router.get('/files/file/:chat_id', gridFSController.getFilesInAChat);
 router.post('/files', gridFSController.postAFile);
 // =======================

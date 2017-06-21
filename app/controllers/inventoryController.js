@@ -5,11 +5,19 @@ var Inventory=mongoose.model("Inventory");
 /////////************************///////////////
 /////// get all the Inventory 
 /////////************************///////////////
+var vins=[];
 module.exports.getInventory=function(req, res){
 	Inventory.find(function(err, inventory){
+
 		if(err)
 			res.send(err);
 		else
+			console.log(inventory.vin);
+		for(var i=0; i< inventory; i++){
+			vins.push(inventory[i]);
+			console.log("inventory of i is" +vins);
+		}
+			console.log("inventory of i is" +vins);
 		res.status(200).json(inventory)
 	});
 };
