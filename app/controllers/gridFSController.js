@@ -4,25 +4,42 @@ var conn = mongoose.connection;
 
 Grid.mongo = mongoose.mongo;
 
-//get a specific file by vin (accessed at GET http://localhost:3000/api/files/{vin})
+//get a specific file by vin (accessed at GET http://localhost:3000/api/getImageByVin/{vin})
 //i used filename=vin number of the car, so i can bring all the images for a specific vin number 
 ///////////////start////////////
-module.exports.getFileByVin = function (req, res){
+module.exports.getImageByVin = function (req, res){
  var gfs = Grid(conn.db);
   gfs.files.find({ filename: req.params.vin}).toArray(function (err, files) {
-//console.log("getting by vin"+req.params.vin);
-    if (err) 
-        res.send(err)
- //   console.log(files);
-    res.send(files);
+console.log("getting by vin"+req.params.vin);
+        if(files.length===0){
+            return res.status(400).send({
+                message: 'File not found'
+            });
+        }
+//make a for loop to this lenght and put line 20 to 34 in this loop to display  all the images
+ console.log(files.length);
+        // unsure why there is a need to specify the filename or contentType
+        var readstream = gfs.createReadStream({
+              filename: files[0].filename,
+              contentType: files[0].contentType
+        });
+        // not sure if this is needed or not, but keeping it in here for now...
+        res.set('Content-Type', files[0].contentType);
+        // This allows the client to directly download the file requested, if requesting the file via an href
+        // path within an html element
+        res.set('Content-Disposition', 'attachment; filename=' + files[0].filename);
+      //  console.log(res);
+        // set up the readstream pipe to send the result out as a html response
+        readstream.pipe(res);
+    //   res.send(files);
   })
 }
 
 ////////////////end//////////////
 
 
-//get a specific file (accessed at GET http://localhost:3000/api/files/{file_id})
-module.exports.getSpecificFile = function (req, res){
+//get a specific file (accessed at GET http://localhost:3000/api/getImageById/{file_id})
+module.exports.getImageById = function (req, res){
 
     console.log("hit the /files get route");
 
@@ -42,7 +59,6 @@ module.exports.getSpecificFile = function (req, res){
                 message: 'File not found'
             });
         }
-
       // console.log(files);
         //console.log(files.length);
 
@@ -51,7 +67,6 @@ module.exports.getSpecificFile = function (req, res){
               filename: files[0].filename,
               contentType: files[0].contentType
         });
-
         // not sure if this is needed or not, but keeping it in here for now...
         res.set('Content-Type', files[0].contentType);
         // This allows the client to directly download the file requested, if requesting the file via an href
@@ -94,21 +109,9 @@ module.exports.postAFile = function(req, res){
 
     // add the user who uploaded the file to the metadata field of the GridFS file document
     var metadata = {
-    make: req.body.make,
-    model: req.body.model,
-    year: req.body.year,
-    price: req.body.price,
-    mileage: req.body.mileage,
-    exterior: req.body.exterior,
-    interior: req.body.interior,
-    vin: req.body.vin,
-    stockNumber: req.body.stockNumber,
-    engine: req.body.engine,
-    transmission: req.body.transmission,
-    fuelType: req.body.fuelType,
-    mpg: req.body.mpg,
-    vehicleOptions: req.body.vehicleOptions,
-     vehicleNotes: req.body.vehicleNotes
+
+    vin: req.body.vin
+
     };
 
    // console.log(metadata);

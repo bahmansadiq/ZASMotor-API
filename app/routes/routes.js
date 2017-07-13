@@ -54,10 +54,10 @@ router.delete('/Inventories/:InventoryId', inventoryController.deleteInventory);
 // router.post('/postImage', upload.any(), imageController.postImage);
 
 // GridFS routes
-router.get('/files/:file_id', gridFSController.getSpecificFile);
-router.get('/files/:vin', gridFSController.getFileByVin);
+router.get('/getImageById/:file_id', gridFSController.getImageById);
+router.get('/getImageByVin/:vin', gridFSController.getImageByVin);
 router.get('/files/file/:chat_id', gridFSController.getFilesInAChat);
-router.post('/files', gridFSController.postAFile);
+router.post('/postImage', gridFSController.postAFile);
 // =======================
 // routes for dealers================
 // =======================
