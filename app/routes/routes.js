@@ -56,7 +56,8 @@ router.delete('/Inventories/:InventoryId', inventoryController.deleteInventory);
 // GridFS routes
 router.get('/getImageById/:file_id', gridFSController.getImageById);
 router.get('/getImageByVin/:vin', gridFSController.getImageByVin);
-router.get('/files/file/:chat_id', gridFSController.getFilesInAChat);
+router.get('/getImages', gridFSController.getImages);
+router.get('/test/:vin', gridFSController.test);
 router.post('/postImage', gridFSController.postAFile);
 // =======================
 // routes for dealers================
