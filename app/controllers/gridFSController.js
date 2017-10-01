@@ -1,50 +1,53 @@
 var Grid = require('gridfs-stream');
 var mongoose = require('mongoose');
 var conn = mongoose.connection;
-
 Grid.mongo = mongoose.mongo;
+//reading multiple files
+var MultiStream = require('multistream');
+var fs = require('fs');
 
 //get a specific file by vin (accessed at GET http://localhost:3000/api/getImageByVin/{vin})
 //i used filename=vin number of the car, so i can bring all the images for a specific vin number 
 ///////////////start////////////
 module.exports.getImageByVin = function (req, res){
  var gfs = Grid(conn.db);
-  gfs.files.find({ filename: req.params.vin}).toArray(function (err, files) {
+ var arr = [];
+var i =0;
+//added this to return all the images at once, it's unmodefied code
+gfs.files.find({}, {}).forEach(function (files) {
 
-        if(files.length===0){
-            return res.status(400).send({
-                message: 'File not found'
-            });
-        }
-/*        for(i=0; i<files.lenght; i++){
-                    console.log("getting files loop "+files[i]);
-        }*/
+    if (files.length === 0) {
+        return res.status(400).send({
+            message: 'File not found'
+        });
+    }
 
-//make a for loop to this lenght and put line 20 to 34 in this loop to display  all the images
+        arr.push(files);
 
-        // unsure why there is a need to specify the filename or contentType
-        var readstream=gfs.createReadStream({
-              filename: files[0].filename,
-              contentType: files[0].contentType
-              });
-    
-       //console.log(readstream);     
-      //  console.log("reead stream is"+readstream);
-//        for(k=0; k<files.length; k++){
-        // not sure if this is needed or not, but keeping it in here for now...
-        res.set('Content-Type', files[0].contentType);
+        res.writeHead(200, {'Content-Type': arr[i].contentType});
 
-        //console.log("fes files contentType is "+ files[0].contentType);
-        // This allows the client to directly download the file requested, if requesting the file via an href
-        // path within an html element
-        res.set('Content-Disposition', 'attachment; filename=' + files[0].filename);
-        console.log(files[0].filename);
+        var readstream = gfs.createReadStream({
+            filename: arr[i].filename
+        });
 
-   // set up the readstream pipe to send the result out as a html response
-      readstream.pipe(res);
-   // res.send(files); 
-   // res.json(files); 
-  })
+        arr.splice(i, 1 );
+
+        readstream.on('data', function (data) {
+            res.write(data);  
+        });
+
+        readstream.on('end', function () {
+            res.end();   
+        });
+
+        readstream.on('error', function (err) {
+            console.log('An error occurred!', err);
+            throw err;
+        });
+
+});
+
+};
 }
 
 ////////////////end//////////////
@@ -72,41 +75,25 @@ module.exports.getImageById = function (req, res){
             });
         }
       // console.log(files);
-        //console.log(files.length);
 
         // unsure why there is a need to specify the filename or contentType
         var readstream = gfs.createReadStream({
-              filename: files[0].filename,
-              contentType: files[0].contentType
+             _id: req.params.file_id
         });
         // not sure if this is needed or not, but keeping it in here for now...
         res.set('Content-Type', files[0].contentType);
         // This allows the client to directly download the file requested, if requesting the file via an href
         // path within an html element
         res.set('Content-Disposition', 'attachment; filename=' + files[0].filename);
-      //  console.log(res);
+     //   console.log(res);
         // set up the readstream pipe to send the result out as a html response
-        readstream.pipe(res);
+       
+       readstream.pipe(res);
     });
 
 };
 
-// get all files associated with a specific chat (Accessed at GET http://localhost:3000/api/files/chat/{chat_id})
-module.exports.getFilesInAChat = function (req, res){
 
-    console.log("hit the /files/chat get route");
-
-    var gfs = Grid(conn.db);
-
-    // why the need for the .toArray, when with other non-GridFS routes there is no need...?
-    gfs.files.find({"metadata.chatid": req.params.chat_id}).toArray(function(err, files) {
-        if (err)
-            res.send(err);
-        res.json(files);
-        
-    });
-
-};
 
 // get all files associated with a specific chat (Accessed at GET http://localhost:3000/api/files/chat/{chat_id})
 module.exports.getImages = function (req, res){
@@ -172,31 +159,83 @@ module.exports.postAFile = function(req, res){
 
 };
 
-///this is a test but it's working????????????????
-module.exports.test = function (req, res){
+///this is giving me a json format i need to display it in stream image????????????????
+// module.exports.getImageByVin = function (req, res){
+//     var gfs = Grid(conn.db);
+
+//     // why the need for the .toArray, when with other non-GridFS routes there is no need...?
+//     gfs.files.find({filename: req.params.vin } ).toArray(function(err,files){
+//   console.log(files.length);
+//                 // if no results returned, send message that file was not found
+//         if(files.length===0){
+//             return res.status(400).send({
+//                 message: 'File not found'
+//             });
+//         }
+
+//   console.log(" read stream is given as ");
+//     console.log(" read stream is given as ");
+// /*   var readstream = gfs.createReadStream({
+//       _id: req.params.id
+//    });
+//    readstream.pipe(res);
+// */
+// res.json(files);
+// })
+// }
+
+module.exports.getImageByVin11 = function (req, res){
+
+    console.log("hit the /files get route");
+
+    // see what the request looks like
+    //console.log(req);
+    //console.log(req.params.file_id);
+/*    res.send(req.params)*/
     var gfs = Grid(conn.db);
 
-    // why the need for the .toArray, when with other non-GridFS routes there is no need...?
-    gfs.files.find({ filename: req.params.vin } ).toArray(function(err,file){
-                // if no results returned, send message that file was not found
-        if(file.length===0){
+    // finds the specific file by id
+    // we can substitute vin number to find image for a car
+    gfs.files.find({ filename: req.params.vin }).toArray(function (err, files) {
+       // if no results returned, send message that file was not found   
+        if(files.length===0){
             return res.status(400).send({
                 message: 'File not found'
             });
         }
-  var NameArray = file;
-    var readstream = gfs.createReadStream({
-              filename: files[0].filename,
-              contentType: files[0].contentType
+
+    var vin=req.params.vin;
+        // unsure why there is a need to specify the filename or contentType
+        // streaming from gridfs
+
+
+
+       var readstream =  gfs.createReadStream({filename : vin});
+            
+
+readstream.pipe(res) 
+//MultiStream(readstream).pipe(res);
+      
+/*        // not sure if this is needed or not, but keeping it in here for now...
+        res.set('Content-Type', files[0].contentType);
+        // This allows the client to directly download the file requested, if requesting the file via an href
+        // path within an html element
+        res.set('Content-Disposition', 'attachment; filename=' + files[0].filename);
+        //   console.log(res);
+        // set up the readstream pipe to send the result out as a html response
+       
+
+
+        //error handling, e.g. file does not exist
+        readstream.on('error', function (err) {
+          console.log('An error occurred!', err);
+          throw err;
         });
- // console.log(NameArray);
- //res.send(NameArray);
-  res.json(NameArray);
-  for(i=0; i<NameArray.length; i++){
-          res.set('Content-Disposition', 'attachment; filename=' + files[i].filename);
-          res.set('Content-Type', files[i].contentType);
-      }
-      //readstream.pipe(NameArray);
-     // res.send(NameArray);
-})
-}
+
+        readstream.pipe(res);*/
+    
+
+    })
+
+};
+
